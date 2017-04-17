@@ -2,11 +2,9 @@ package com.example.groupproject.weatherrecs;
 
 import android.os.AsyncTask;
 import android.view.inputmethod.InputConnection;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -51,6 +49,7 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
         return null;
     }
 
+    //This parses the downloaded Wunderground JSON file for certain attributes, like current temperature or UV index, etc.
     @Override
     protected void onPostExecute(String result){
         super.onPostExecute(result);
@@ -58,26 +57,22 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
         //TODO: change basically all of this to fit Wunderground JSON stuff
         try {
             JSONObject jsonObject = new JSONObject(result);
+            JSONObject weatherData = new JSONObject(jsonObject.getString("current_observation"));
 
-            String weatherInfo = jsonObject.getString("weather");
-            String cityName = jsonObject.getString("name");
+            String cityName = jsonObject.getString(weatherData.getString("city"));
+            String tempF = jsonObject.getString(weatherData.getString("temp_f"));
 
-            JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
+            MainActivity.cityTextView.append(cityName);
+            MainActivity.temperatureTextView.append(tempF);
 
-            double tempInt = Double.parseDouble(weatherData.getString("temp"));
-            int tempIn = (int) (tempInt*1.8-459.67);                            //TODO: Wunderground auto-converts to Celsius/Fahrenheit, this is no longer necessary
-
-            MainActivity.temperatureTextView.setText(String.valueOf(tempIn) + "F");
-
-            MainActivity.cityTextView.setText(cityName);
-            JSONArray jsonArray = new JSONArray(weatherInfo);
+            /*JSONArray jsonArray = new JSONArray(weatherInfo);
 
             for (int i = 0; i < jsonArray.length(); i++){
                 JSONObject jsonPart = jsonArray.getJSONObject(i);
 
 
 
-            }
+            }*/
 
 
         } catch (Exception e) {
