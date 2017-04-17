@@ -53,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
         Double lng = location.getLongitude();
 
         //The location data (latitude/longitude) is then used to generate an accurate weather JSON
-        DownloadOWMData task = new DownloadOWMData();
-        task.execute("http://api.openweathermap.org/data/2.5/weather?lat=" + String.valueOf(lat) + "&lon=" + String.valueOf(lng) + "&appid=89760d748a6208f76ff3a4b2f557ffb0");
-
+        //TODO: use different Wunderground JSON files for various uses. e.g. Use "geolookup" when grabbing the user's current city, or use "conditions" for current weather
+        DownloadAPIData task = new DownloadAPIData();
+        task.execute("http://api.wunderground.com/api/43f3a903f5e333e9/geolookup/q/" + lat + "," + lng + ".json");
+        task.execute("http://api.wunderground.com/api/43f3a903f5e333e9/conditions/q/" + lat + "," + lng + ".json");
 
 
 
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //This is all floating action button stuff, we probably won't need this (?)
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

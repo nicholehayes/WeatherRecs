@@ -16,8 +16,10 @@ import java.net.HttpURLConnection;
  * Created by Nichole on 4/16/2017.
  */
 
-public class DownloadOWMData extends AsyncTask<String, Void, String> {
+public class DownloadAPIData extends AsyncTask<String, Void, String> {
 
+
+    //This connects to the Wunderground API's URL to grab current weather data upon opening the app.
     @Override
     protected String doInBackground(String... urls){
 
@@ -53,6 +55,7 @@ public class DownloadOWMData extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result){
         super.onPostExecute(result);
 
+        //TODO: change basically all of this to fit Wunderground JSON stuff
         try {
             JSONObject jsonObject = new JSONObject(result);
 
@@ -62,7 +65,7 @@ public class DownloadOWMData extends AsyncTask<String, Void, String> {
             JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
 
             double tempInt = Double.parseDouble(weatherData.getString("temp"));
-            int tempIn = (int) (tempInt*1.8-459.67);                            //TODO: change this based on user preferences
+            int tempIn = (int) (tempInt*1.8-459.67);                            //TODO: Wunderground auto-converts to Celsius/Fahrenheit, this is no longer necessary
 
             MainActivity.temperatureTextView.setText(String.valueOf(tempIn) + "F");
 
