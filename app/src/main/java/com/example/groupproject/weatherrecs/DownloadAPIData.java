@@ -1,5 +1,7 @@
 package com.example.groupproject.weatherrecs;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.inputmethod.InputConnection;
 import org.json.JSONArray;
@@ -59,19 +61,33 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
             JSONObject jsonObject = new JSONObject(result);
             JSONObject weatherData = new JSONObject(jsonObject.getString("current_observation"));
 
+            //fetches string data from JSON
             String cityName = jsonObject.getString(weatherData.getString("city"));
-            String tempF = jsonObject.getString(weatherData.getString("temp_f"));
+            String tempF = jsonObject.getString(weatherData.getString("feelslike_f"));
+            String UV = jsonObject.getString(weatherData.getString("UV"));
+            String rainChance = "";
 
+
+            //fetches current weather icon
+            String iconURL = jsonObject.getString(weatherData.getString("icon_url"));
+            URL url = new URL(iconURL);
+            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+
+            //Applies parsed data from JSON to UI elements
+            MainActivity.iconImageView.setImageBitmap(bmp);
             MainActivity.cityTextView.append(cityName);
             MainActivity.temperatureTextView.append(tempF);
 
+
+
+
+
+            //Unneccessary, but keep for reference
             /*JSONArray jsonArray = new JSONArray(weatherInfo);
 
             for (int i = 0; i < jsonArray.length(); i++){
                 JSONObject jsonPart = jsonArray.getJSONObject(i);
-
-
-
             }*/
 
 
@@ -79,8 +95,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
 
-
     }
-
 
 }
