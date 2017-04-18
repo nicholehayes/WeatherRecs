@@ -1,12 +1,12 @@
 package com.example.groupproject.weatherrecs;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.inputmethod.InputConnection;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -51,41 +51,65 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
         return null;
     }
 
+    //This parses the downloaded Wunderground JSON file for certain attributes, like current temperature or UV index, etc.
     @Override
     protected void onPostExecute(String result){
         super.onPostExecute(result);
 
-        //TODO: change basically all of this to fit Wunderground JSON stuff
+
+        String cityName, weather, temp, intTemp;
+        String uvMsg = "";
+        Double uv;
+
         try {
             JSONObject jsonObject = new JSONObject(result);
+            JSONObject weatherData = jsonObject.getJSONObject("current_observation");
+            JSONObject cityData = weatherData.getJSONObject("display_location");
 
-            String weatherInfo = jsonObject.getString("weather");
-            String cityName = jsonObject.getString("name");
 
-            JSONObject weatherData = new JSONObject(jsonObject.getString("main"));
+            //fetches string data from JSON
+            cityName = cityData.getString("city");
+            weather = weatherData.getString("weather");
+            temp = weatherData.getString("feelslike_f");
+            uv = Double.parseDouble(weatherData.getString("UV"));
 
-            double tempInt = Double.parseDouble(weatherData.getString("temp"));
-            int tempIn = (int) (tempInt*1.8-459.67);                            //TODO: Wunderground auto-converts to Celsius/Fahrenheit, this is no longer necessary
 
-            MainActivity.temperatureTextView.setText(String.valueOf(tempIn) + "F");
 
+            //removes decimal point from temperature string
+            intTemp = temp.substring(0, temp.length() - 2);
+
+
+
+            //TODO: UV index fluctuates throughout the day. Consider moving this to hourly if we have time for it.
+            //generates sunscreen message based on UV index rating
+            if (0 <= uv && uv < 3)
+                uvMsg = "You might want to wear sunscreen today.";
+            else if (3 <= uv && uv < 6)
+                uvMsg = "You should wear sunscreen today.";
+            else if (6 <= uv)
+                uvMsg = "You definitely need to wear sunscreen today.";
+
+
+            /*TODO: weather icon fetch doesn't work currently
+            String iconURL = weatherData.getString("icon_url");
+            URL url = new URL(iconURL);
+            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());*/
+
+
+
+            //populates TextViews with parsed information
             MainActivity.cityTextView.setText(cityName);
-            JSONArray jsonArray = new JSONArray(weatherInfo);
+            MainActivity.temperatureTextView.setText(intTemp + "°F");
+            MainActivity.statusTextView.setText(weather);
+            MainActivity.uvTextView.setText(uvMsg);
 
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject jsonPart = jsonArray.getJSONObject(i);
-
-
-
-            }
+            //MainActivity.iconImageView.setImageBitmap(bmp);
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
     }
-
 
 }
