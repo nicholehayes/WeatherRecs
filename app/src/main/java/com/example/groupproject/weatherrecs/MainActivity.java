@@ -12,7 +12,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+<<<<<<< HEAD
 import android.webkit.WebView;
+=======
+>>>>>>> origin/master
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +23,12 @@ public class MainActivity extends AppCompatActivity{
 
     static TextView cityTextView;
     static TextView temperatureTextView;
+<<<<<<< HEAD
     static TextView statusTextView;
     static TextView uvTextView;
 
+=======
+>>>>>>> origin/master
     static ImageView iconImageView;
 
     @Override
@@ -52,6 +58,23 @@ public class MainActivity extends AppCompatActivity{
         cityTextView.append(pc);
         //end debug shit*/
 
+<<<<<<< HEAD
+=======
+        /**
+         * This chunk gets user location via GPS app permissions.
+         * TODO: Handle when the user denies current location by filling in the "if" statement below.
+         */
+        //LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //String provider = locationManager.getBestProvider(new Criteria(), false);
+
+
+        /*debug shit
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        String pc = String.valueOf(permissionCheck);
+        cityTextView.append(pc);
+        //end debug shit*/
+
+>>>>>>> origin/master
         /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -79,8 +102,11 @@ public class MainActivity extends AppCompatActivity{
         DownloadAPIData task = new DownloadAPIData();
         task.execute("http://api.wunderground.com/api/43f3a903f5e333e9/conditions/q/LA/Baton_Rouge.json");
 
+<<<<<<< HEAD
         //DownloadHourlyData hourlyTask = new DownloadHourlyData();
         //hourlyTask.execute("http://api.wunderground.com/api/43f3a903f5e333e9/hourly/q/LA/Baton_Rouge.json");
+=======
+>>>>>>> origin/master
 
     }
 
