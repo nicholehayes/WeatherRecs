@@ -63,7 +63,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
 
         try {
             JSONObject jsonObject = new JSONObject(result);
-<<<<<<< HEAD
             JSONObject weatherData = jsonObject.getJSONObject("current_observation");
             JSONObject cityData = weatherData.getJSONObject("display_location");
 
@@ -78,27 +77,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
 
             //removes decimal point from temperature string
             intTemp = temp.substring(0, temp.length() - 2);
-=======
-            JSONObject weatherData = new JSONObject(jsonObject.getString("current_observation"));
-
-            //fetches string data from JSON
-            String cityName = jsonObject.getString(weatherData.getString("city"));
-            String tempF = jsonObject.getString(weatherData.getString("feelslike_f"));
-            String UV = jsonObject.getString(weatherData.getString("UV"));
-            String rainChance = "";
-
-
-            //fetches current weather icon
-            String iconURL = jsonObject.getString(weatherData.getString("icon_url"));
-            URL url = new URL(iconURL);
-            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-
-
-            //Applies parsed data from JSON to UI elements
-            MainActivity.iconImageView.setImageBitmap(bmp);
-            MainActivity.cityTextView.append(cityName);
-            MainActivity.temperatureTextView.append(tempF);
->>>>>>> origin/master
 
 
 
@@ -110,9 +88,8 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
                 uvMsg = "You should wear sunscreen today.";
             else if (6 <= uv)
                 uvMsg = "You definitely need to wear sunscreen today.";
-
-
-<<<<<<< HEAD
+            
+            
             /*TODO: weather icon fetch doesn't work currently
             String iconURL = weatherData.getString("icon_url");
             URL url = new URL(iconURL);
@@ -127,14 +104,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
             MainActivity.uvTextView.setText(uvMsg);
 
             //MainActivity.iconImageView.setImageBitmap(bmp);
-=======
-            //Unneccessary, but keep for reference
-            /*JSONArray jsonArray = new JSONArray(weatherInfo);
-
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject jsonPart = jsonArray.getJSONObject(i);
-            }*/
->>>>>>> origin/master
 
 
         } catch (Exception e) {
