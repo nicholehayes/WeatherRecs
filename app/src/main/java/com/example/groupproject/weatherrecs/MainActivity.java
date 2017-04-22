@@ -9,12 +9,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-<<<<<<< HEAD
 import android.view.Menu;
 import android.view.MenuItem;
-=======
 import android.webkit.WebView;
->>>>>>> origin/master
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,11 +23,8 @@ public class MainActivity extends AppCompatActivity {
     static TextView temperatureTextView;
     static TextView statusTextView;
     static TextView uvTextView;
-<<<<<<< HEAD
     static TextView clothesTextView;
-=======
 
->>>>>>> origin/master
     static ImageView iconImageView;
 
 
@@ -56,45 +50,6 @@ public class MainActivity extends AppCompatActivity {
         uvTextView = (TextView) findViewById(R.id.uvTextView);
         clothesTextView = (TextView) findViewById(R.id.clothesTextView);
         iconImageView = (ImageView) findViewById(R.id.iconImageView);
-
-
-<<<<<<< HEAD
-        /*
-        //This part gets user location via app permissions
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        String provider = locationManager.getBestProvider(new Criteria(), false);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Call this when the user doesn't grant permission! e.g. the user will pick a location, etc.
-=======
-        /**
-         * This chunk gets user location via GPS app permissions.
-         * TODO: Handle when the user denies current location by filling in the "if" statement below.
-         */
-        //LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //String provider = locationManager.getBestProvider(new Criteria(), false);
-
-
-        /*debug shit
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        String pc = String.valueOf(permissionCheck);
-        cityTextView.append(pc);
-        //end debug shit*/
-
-        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
->>>>>>> origin/master
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = locationManager.getLastKnownLocation(provider);
-
-        Double lat = location.getLatitude();
-        Double lng = location.getLongitude();
-        */
 
         //The location data (latitude/longitude) is then used to generate an accurate weather JSON
         DownloadAPIData task = new DownloadAPIData();
@@ -131,7 +86,3 @@ public class MainActivity extends AppCompatActivity {
 
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
