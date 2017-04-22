@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,8 +10,11 @@
     android:layout_height="fill_parent"
     tools:context="com.example.groupproject.weatherrecs.MainActivity">
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/master
 
     <View
         android:id="@+id/background"
@@ -134,6 +140,7 @@
         android:layout_marginBottom="50dp"
         android:layout_marginLeft="20dp" />
 
+<<<<<<< HEAD
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -147,3 +154,6 @@
 
 </RelativeLayout>
 
+=======
+</RelativeLayout>
+>>>>>>> origin/master
