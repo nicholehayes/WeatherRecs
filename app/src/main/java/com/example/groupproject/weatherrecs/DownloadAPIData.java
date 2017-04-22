@@ -88,16 +88,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
             temp = (int) Double.parseDouble(weatherData.getString("feelslike_f"));
             uv = Double.parseDouble(weatherData.getString("UV"));
 
-<<<<<<< HEAD
-=======
-
-
-            //removes decimal point from temperature string
-            intTemp = temp.substring(0, temp.length() - 2);
-
-
-
->>>>>>> origin/master
             //TODO: UV index fluctuates throughout the day. Consider moving this to hourly if we have time for it.
 
             //generates sunscreen message based on UV index rating
@@ -108,7 +98,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
                 uvMsg = "You should wear sunscreen today.";
             else if (6 <= uv)
                 uvMsg = "You definitely need to wear sunscreen today.";
-<<<<<<< HEAD
 
             /*
             possible way to do temperature preferences
@@ -119,14 +108,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
                 wearMsg = "Wear Shorts " + temp + " " + hotTempPref;
             if (temp <= Double.parseDouble(coldTempPref))
                 wearMsg = "Wear pants " + temp + " " + coldTempPref;
-=======
-            
-            
-            /*TODO: weather icon fetch doesn't work currently
-            String iconURL = weatherData.getString("icon_url");
-            URL url = new URL(iconURL);
-            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());*/
->>>>>>> origin/master
 
 
 
@@ -137,7 +118,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
             MainActivity.uvTextView.setText(uvMsg);
             MainActivity.clothesTextView.setText(wearMsg);
 
-<<<<<<< HEAD
             //Adds icon image
             new DownloadImageTask(iconImageView)
                     .execute(iconUrl);
@@ -148,8 +128,6 @@ public class DownloadAPIData extends AsyncTask<String, Void, String> {
 
 
             //Applies parsed data from JSON to UI elements
-=======
->>>>>>> origin/master
             //MainActivity.iconImageView.setImageBitmap(bmp);
 
 
