@@ -1,5 +1,8 @@
 package com.example.groupproject.weatherrecs;
 
+/**
+ * Created by Elijah Antoine on 4/17/2017.
+ */
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -53,6 +56,7 @@ public class DownloadHourlyData extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result){
         super.onPostExecute(result);
 
+        //MainActivity.temperatureTextView.append("hello");
 
         try {
             JSONObject jsonObject = new JSONObject(result);

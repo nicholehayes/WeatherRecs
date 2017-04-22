@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-=======
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> origin/master
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context="com.example.groupproject.weatherrecs.MainActivity">
 
-<<<<<<< HEAD
+
+
 
     <View
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBlue" />
+
 
     <View
         android:id="@+id/centerShim"
@@ -25,12 +24,15 @@
         android:visibility="invisible"
         android:layout_centerVertical="true" />
 
+
     <View
+
         android:id="@+id/rightSide"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:visibility="invisible"
         android:layout_alignParentRight="true" />
+
 
     <TextView
         android:id="@+id/temperatureTextView"
@@ -38,13 +40,12 @@
         android:textSize="65dp"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_toRightOf="@+id/iconImageView"
         android:layout_toLeftOf="@+id/rightSide"
         android:layout_alignTop="@+id/iconImageView" />
+
 
     <TextView
         android:id="@+id/cityTextView"
@@ -52,10 +53,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_toRightOf="@+id/iconImageView"
         android:layout_toLeftOf="@+id/rightSide"
         android:layout_below="@+id/temperatureTextView" />
@@ -67,14 +66,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_toRightOf="@+id/iconImageView"
         android:layout_toLeftOf="@+id/rightSide"
         android:layout_below="@+id/cityTextView"
         android:layout_marginTop="5dp" />
+
 
     <TextView
         android:id="@+id/rainTextView"
@@ -82,12 +80,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_above="@+id/centerShim"
         android:layout_centerHorizontal="true" />
+
 
     <TextView
         android:id="@+id/clothesTextView"
@@ -95,13 +92,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_below="@+id/centerShim"
         android:layout_marginTop="35dp"
         android:layout_centerHorizontal="true" />
+
 
     <TextView
         android:id="@+id/accessoriesTextView"
@@ -109,13 +105,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_below="@+id/clothesTextView"
         android:layout_marginTop="35dp"
         android:layout_centerHorizontal="true" />
+
 
     <TextView
         android:id="@+id/uvTextView"
@@ -123,128 +118,32 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorWhite"
         android:gravity="center"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_below="@+id/accessoriesTextView"
         android:layout_marginTop="35dp"
         android:layout_centerHorizontal="true" />
+
 
     <ImageView
         android:id="@+id/iconImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-
         app:srcCompat="?attr/colorBackgroundFloating"
         android:layout_above="@+id/centerShim"
         android:layout_marginBottom="50dp"
         android:layout_marginLeft="20dp" />
 
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@android:color/transparent"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
+    <include layout="@layout/content_main" />
+
 </RelativeLayout>
-=======
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="City: "
-        android:id="@+id/cityTextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintVertical_bias="0.05" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Temperature: "
-        android:id="@+id/temperatureTextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135"
-        app:layout_constraintHorizontal_bias="0.629" />
-
-    <TextView
-        android:id="@+id/humidityTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Humidity: "
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.552"
-        app:layout_constraintVertical_bias="0.227" />
-
-    <TextView
-        android:id="@+id/rainTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chance of Rain: "
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.681"
-        app:layout_constraintVertical_bias="0.315" />
-
-    <TextView
-        android:id="@+id/clothesTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What You Should Wear: "
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.224"
-        app:layout_constraintVertical_bias="0.564" />
-
-    <TextView
-        android:id="@+id/accessoriesTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What You Should Bring: "
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.224"
-        app:layout_constraintVertical_bias="0.712" />
-
-    <TextView
-        android:id="@+id/UVTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sunscreen? "
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintVertical_bias="0.878" />
-
-    <ImageView
-        android:id="@+id/iconImageView"
-        android:layout_width="94dp"
-        android:layout_height="92dp"
-        app:srcCompat="?attr/colorBackgroundFloating"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
-        app:layout_constraintVertical_bias="0.127" />
-
-</android.support.constraint.ConstraintLayout>
->>>>>>> origin/master
