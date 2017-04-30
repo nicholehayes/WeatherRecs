@@ -6,4 +6,4 @@ Install using recommended settings.
 
 Unzip the GitHub file, and place in the locally created ~/AndroidStudioProjects folder created upon installation.  
  
-Open the project directory in Android Studio. Then run the source code using the green arrow icon at the top. When prompted to create a virtual device, create a Nexus 6P device (using Android 7.0) and run.  
+Open the project directory in Android Studio. Then run the source code using the green arrow icon at the top. When prompted to create a virtual device, create a Nexus 6P device (using Android 7.0, SDK 24) and run.  
