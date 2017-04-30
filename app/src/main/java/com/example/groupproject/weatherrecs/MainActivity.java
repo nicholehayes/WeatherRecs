@@ -1,37 +1,85 @@
 package com.example.groupproject.weatherrecs;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.identity.intents.Address;
+import com.google.android.gms.location.FusedLocationProviderApi;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     static TextView cityTextView;
     static TextView temperatureTextView;
     static TextView statusTextView;
+    static TextView rainTextView;
     static TextView uvTextView;
     static TextView clothesTextView;
+    static TextView accessoriesTextView;
     static ImageView iconImageView;
+    private FusedLocationProviderApi locationProvider = LocationServices.FusedLocationApi;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private Double myLatitude = 0.0;
+    private Double myLongitude = 0.0;
+    private static final String latS = "no lat";
+    private static final String lngS = "no long";
+
+    private static final int MY_PERMISSION_REQUEST_FINE_LOCATION = 101;
+    private static final int MY_PERMISSION_REQUEST_COARSE_LOCATION = 102;
+    private boolean permissionIsGranted = false;
+    SharedPreferences sharedPreferences;
+    public static final String MyPREFERENCES = "MyPrefs";
 
 
     // gives access to preferences in non-activity classes
     public static Context contextOfApplication;
-    public static Context getContextOfApplication(){
+
+    public static Context getContextOfApplication() {
         return contextOfApplication;
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,39 +93,33 @@ public class MainActivity extends AppCompatActivity {
         cityTextView = (TextView) findViewById(R.id.cityTextView);
         temperatureTextView = (TextView) findViewById(R.id.temperatureTextView);
         statusTextView = (TextView) findViewById(R.id.statusTextView);
+        rainTextView = (TextView) findViewById(R.id.rainTextView);
         uvTextView = (TextView) findViewById(R.id.uvTextView);
         clothesTextView = (TextView) findViewById(R.id.clothesTextView);
+        accessoriesTextView = (TextView) findViewById(R.id.accessoriesTextView);
         iconImageView = (ImageView) findViewById(R.id.iconImageView);
 
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
 
-        /*
-        //This part gets user location via app permissions
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        String provider = locationManager.getBestProvider(new Criteria(), false);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Call this when the user doesn't grant permission! e.g. the user will pick a location, etc.
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = locationManager.getLastKnownLocation(provider);
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(100);
+        locationRequest.setFastestInterval(100);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        Double lat = location.getLatitude();
-        Double lng = location.getLongitude();
-        */
+        SharedPreferences prefs = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
 
-        //The location data (latitude/longitude) is then used to generate an accurate weather JSON
-        DownloadAPIData task = new DownloadAPIData();
-        task.execute("http://api.wunderground.com/api/43f3a903f5e333e9/conditions/q/LA/Baton_Rouge.json");
+        Float ver = prefs.getFloat(latS,0);
+        Float hor = prefs.getFloat(lngS, 0);
+        myLatitude = ver.doubleValue();
+        myLongitude = hor.doubleValue();
 
-        //DownloadHourlyData hourlyTask = new DownloadHourlyData();
-        //hourlyTask.execute("http://api.wunderground.com/api/43f3a903f5e333e9/hourly/q/LA/Baton_Rouge.json");
-
+        updateUI();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(this,SettingsActivity.class);
+            Intent i = new Intent(this, SettingsActivity.class);
             this.startActivity(i);
             return true;
         }
@@ -103,6 +145,110 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        requestLocationUpdates();
+    }
+
+    private void requestLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
+            } else {
+                permissionIsGranted = true;
+            }
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location)
+    {
+
+        myLatitude = location.getLatitude();
+        myLongitude = location.getLongitude();
+
+        updateUI();
+
+    }
+
+    private void updateUI()
+    {
+        DownloadAPIData taskHelper = new DownloadAPIData();
+        taskHelper.execute("http://api.wunderground.com/api/9571930eedba9fe8/conditions/q/"+myLatitude+","+myLongitude+".json");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.connect();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (permissionIsGranted) {
+            if (googleApiClient.isConnected()) {
+                requestLocationUpdates();
+
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (permissionIsGranted)
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+
+        SharedPreferences.Editor editor = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE).edit();
+
+        editor.putFloat(latS, myLatitude.floatValue());
+        editor.putFloat(lngS, myLongitude.floatValue());
+
+        editor.apply();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (permissionIsGranted)
+            googleApiClient.disconnect();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_FINE_LOCATION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission granted
+                    permissionIsGranted = true;
+
+                } else {
+                    //permission denied
+                    permissionIsGranted = false;
+                    Toast.makeText(getApplicationContext(), "This app requires location permission to be granted", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+            case MY_PERMISSION_REQUEST_COARSE_LOCATION:
+                // do something for coarse location
+                break;
+        }
+    }
+
+
 }
-
-
